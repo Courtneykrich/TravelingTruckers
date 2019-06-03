@@ -6,18 +6,19 @@ import java.sql.SQLException;
 
 public class DBConnector {
     private Connection conn;
-    public DBConnector(){
+    public DBConnector() {
         try {
             this.conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaproject?" +
-                    "user=root&password="+System.getenv("PROJECT_PASSWORD")+"&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
-        }catch (SQLException ex) {
+                    "user=root&password=" + System.getenv("PROJECT_PASSWORD") + "&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC");
+        } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
     }
-    public Connection getConn(){
+    public Connection getConn() {
         return this.conn;
     }
 }
+

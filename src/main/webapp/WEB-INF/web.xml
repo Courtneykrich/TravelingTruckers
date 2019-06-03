@@ -9,6 +9,10 @@
     <servlet-class>servlets.TruckerServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>FooServlet</servlet-name>
+    <servlet-class>servlets.FooServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>RedirectServlet</servlet-name>
     <servlet-class>servlets.RedirectServlet</servlet-class>
   </servlet>
@@ -16,6 +20,10 @@
   <servlet-mapping>
     <servlet-name>TruckerServlet</servlet-name>
     <url-pattern>/trucker</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FooServlet</servlet-name>
+    <url-pattern>/foo</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>RedirectServlet</servlet-name>

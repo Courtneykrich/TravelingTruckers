@@ -19,6 +19,7 @@ public class TruckerServlet extends HttpServlet {
             statement = conn.createStatement();
             resultSet = statement.executeQuery("SELECT name FROM trucking");
             writer.print("Hello, ");
+
             while (resultSet.next()){
                 System.out.println(resultSet.getString("name"));
                 writer.print(resultSet.getString("name")+", ");
@@ -64,5 +65,6 @@ public class TruckerServlet extends HttpServlet {
             System.out.println(e.getErrorCode());
             e.printStackTrace();
         }
+
     }
 }
