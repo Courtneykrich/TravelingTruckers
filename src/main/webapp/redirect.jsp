@@ -4,7 +4,19 @@
 
 <body>
 
-    Job is confirmed: Thanks, <%= request.getParameter("driverName") %>
+    This <%= request.getParameter("customer") %> job has been added.
+    <br></br>
+    Expenses included:
+    <ul>
+    <%
+    String[] expenses = request.getParameterValues("expenses");
+        for(String tempExp : expenses){
+        out.println("<li>"+tempExp+ "<li>");
+        }
+    %>
+    </ul>
+    <br></br>
+    Thanks, <%= request.getParameter("driverName") %>
 
 
 </body>

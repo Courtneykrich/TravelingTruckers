@@ -13,7 +13,22 @@ String action = request.getParameter("action");
 
 <form action="redirect.jsp">
 
-    Driver name: <input type="text" name="driverName" />
+<select name="driverName">
+    <option>KerryK</option>
+    <option>Ken</option>
+    <option>Marissa</option>
+    <option>Dorie</option>
+    <option>Frank</option>
+    <option>Ted</option>
+    <option>KerryI</option>
+    </select>
+
+    <br/><br/>
+
+    <input type="radio" name="customer" value="SAK"> SAK
+    <input type="radio" name="customer" value="INS"> INS
+    <input type="radio" name="customer" value="BLD"> BLD
+    <input type="radio" name="customer" value="Other"> Other
 
     <br/><br/>
 
@@ -30,6 +45,15 @@ String action = request.getParameter("action");
     <br/><br/>
 
     End address: <input type="text" name="endAddress" />
+
+    <br/><br/>
+
+    <input type="checkbox" name="expenses" value= "Flight"> Flight
+    <input type="checkbox" name="expenses" value= "Car Rental"> Car Rental
+    <input type="checkbox" name="expenses" value= "Hotel"> Hotel
+    <input type="checkbox" name="expenses" value= "Maintenance"> Maintenance
+
+    <br/><br/>
 
     <input type="submit" value="Submit"/>
 
