@@ -11,7 +11,7 @@
     <%
     String[] expenses = request.getParameterValues("expenses");
         for(String tempExp : expenses){
-        out.println("<li>"+tempExp+ "<li>");
+        out.println("<li>"+tempExp+ "</li>");
         }
     %>
     </ul>

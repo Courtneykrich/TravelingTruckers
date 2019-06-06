@@ -1,8 +1,3 @@
-<%
-String action = request.getParameter("action");
-%>
-
-
 <html>
 <body>
 <h2>Hello Truckers!</h2>
@@ -11,16 +6,18 @@ String action = request.getParameter("action");
 
 <body>
 
-<form action="redirect.jsp">
+ <!-- <form action="redirect.jsp"> -->
+
+  <form action="trucker" method="GET">
 
 <select name="driverName">
-    <option>KerryK</option>
+    <option>Kerry K</option>
     <option>Ken</option>
     <option>Marissa</option>
     <option>Dorie</option>
     <option>Frank</option>
     <option>Ted</option>
-    <option>KerryI</option>
+    <option>Kerry I</option>
     </select>
 
     <br/><br/>

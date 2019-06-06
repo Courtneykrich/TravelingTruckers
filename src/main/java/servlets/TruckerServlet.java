@@ -9,7 +9,8 @@ import database.DBConnector;
 
 public class TruckerServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws  IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         PrintWriter writer = resp.getWriter();
 
         ResultSet resultSet = null;
@@ -20,25 +21,25 @@ public class TruckerServlet extends HttpServlet {
             resultSet = statement.executeQuery("SELECT name FROM trucking");
             writer.print("Hello, ");
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 System.out.println(resultSet.getString("name"));
-                writer.print(resultSet.getString("name")+", ");
+                writer.print(resultSet.getString("name") + ", ");
             }
         } catch (SQLException e) {
             System.out.println(e.getErrorCode());
             e.printStackTrace();
-        }finally {
-            if (resultSet != null){
+        } finally {
+            if (resultSet != null) {
                 try {
                     resultSet.close();
-                }catch (SQLException sqlEx){
+                } catch (SQLException sqlEx) {
                     System.out.println(sqlEx);
                 }
             }
-            if (statement != null){
-                try{
+            if (statement != null) {
+                try {
                     statement.close();
-                }catch (SQLException sqlEx){
+                } catch (SQLException sqlEx) {
                     System.out.println(sqlEx);
                 }
             }
@@ -48,12 +49,14 @@ public class TruckerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        PrintWriter writer =resp.getWriter();
+        PrintWriter writer = resp.getWriter();
 
+        req.getParameterValues("customers");
+
+        /*
         PreparedStatement statement = null;
-        String sql = "INSERT INTO trucking (name)VALUES(?)";
-        String name = req.getParameter("trucker_name");
-
+        String sql = "INSERT INTO trucking (name, truck_number, trailer_number, start_address, end_address, date)VALUES(?,?,?,?,?,?)";
+        String name = req.getParameter("driverName");
 
         try {
             Connection conn = new DBConnector().getConn();
@@ -66,5 +69,7 @@ public class TruckerServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+    }
+    */
     }
 }
