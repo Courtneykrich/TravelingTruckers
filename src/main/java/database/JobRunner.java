@@ -1,15 +1,16 @@
-import database.DBConnector;
+package database;
 
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+
 public class JobRunner {
-    DBConnector myDBConnector = new DBConnector();
-    Connection conn = myDBConnector.getConn();
+    private DBConnector myDBConnector = new DBConnector();
+//    Connection conn = myDBConnector.getConn();
 
     public void getTruckers() throws SQLException {
-
-
+        Connection conn = myDBConnector.getConn();
 
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM trucking");
@@ -19,66 +20,73 @@ public class JobRunner {
         }
 
         System.out.println("Get Truckers called");
+
+        rs.close();
+        st.close();
+
     }
 
     public int getNewID() throws SQLException {
         int nextID = -1;
+        Connection conn = myDBConnector.getConn();
 
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery("SELECT MAX(id_job) AS NEXT_ID FROM trucking");
 
-//        System.out.println(rs.getInt("NEXT_ID"));
-
         while (rs.next()) {
             nextID = rs.getInt("NEXT_ID");
         }
+
         return nextID + 1;
+
     }
 
     public Job createJob(Job job) throws SQLException, SQLSyntaxErrorException {
-//        Connection conn = getConnection();
+        Connection conn = myDBConnector.getConn();
 
         java.sql.Date date = new java.sql.Date(0000 - 00 - 00);
         DateFormat dateFormatMDY = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-//        Date now = new Date();
+
         String vDateMDY = dateFormatMDY.format(job.getDate());
 
         PreparedStatement createJobStatement = conn.prepareStatement("INSERT INTO trucking values (?, ?, ?, ?, ?, ?, ?)");
         createJobStatement.setInt(1, getNewID());
         createJobStatement.setString(2, job.getDriverName());
-        createJobStatement.setInt(3, Integer.parseInt(job.getTruckNumber()));
-        createJobStatement.setInt(4, Integer.parseInt(job.getTrailerNumber()));
+        createJobStatement.setString(3, job.getTruckNumber());
+        createJobStatement.setString(4, job.getTrailerNumber());
         createJobStatement.setString(5, job.getStartLocation());
         createJobStatement.setString(6, job.getEndLocation());
         createJobStatement.setDate(7, new java.sql.Date(System.currentTimeMillis()));
 
         System.out.println(createJobStatement);
 
-        int n = createJobStatement.executeUpdate();
+        createJobStatement.executeUpdate();
+
+        createJobStatement.close();
 
 
-        System.out.println("Number of rows affected " + n);
         return null;
     }
 
     public Job deleteJob(int jobID) throws SQLException, SQLSyntaxErrorException {
-//        Connection conn = getConnection();
+        Connection conn = myDBConnector.getConn();
 
         PreparedStatement deleteJobStatement = conn.prepareStatement("DELETE FROM trucking WHERE id_job = ?");
         deleteJobStatement.setInt(1, jobID);
         System.out.println(deleteJobStatement);
 
-        int n = deleteJobStatement.executeUpdate();
+        deleteJobStatement.executeUpdate();
+
+        deleteJobStatement.close();
 
 
-        System.out.println("Number of rows affected " + n);
         return null;
     }
 
     public Job updateJob(Job job) throws SQLException, SQLSyntaxErrorException {
-//        Connection conn = getConnection();
+        Connection conn = myDBConnector.getConn();
 
-        PreparedStatement updateJobStatement = conn.prepareStatement("UPDATE trucking SET name = ? , truck_number = ?, trailer_number = ?, start_address = ?, end_address = ?, date = ? WHERE id_trucker = ?");
+        PreparedStatement updateJobStatement = conn.prepareStatement("UPDATE trucking SET name = ? , truck_number = ?, trailer_number = ?, start_address = ?, end_address = ?, date = ? WHERE id_job = ?");
         updateJobStatement.setString(1, job.getDriverName());
         updateJobStatement.setInt(2, Integer.parseInt(job.getTruckNumber()));
         updateJobStatement.setInt(3, Integer.parseInt(job.getTrailerNumber()));
@@ -89,49 +97,55 @@ public class JobRunner {
 
         System.out.println(updateJobStatement);
 
-        int n = updateJobStatement.executeUpdate();
+        updateJobStatement.executeUpdate();
+
+        updateJobStatement.close();
 
 
-        System.out.println("Number of rows affected " + n);
         return null;
     }
 
+    public void testConnection(){
+        myDBConnector.getConn();
+    }
     public static void main(String[] args) {
 
-        // First test to try out the Job class.
+        // First test to try out the database.Job class.
 
 
-//        System.out.println("Creating a new job");
-//        Job nextJob = new Job("Rob","14","64","Tampa, FL", "Chesterfield, MO", new java.sql.Date(System.currentTimeMillis()));
-//        System.out.println(nextJob.getDriverName() + " " + nextJob.getEndLocation());
-//        System.out.println("Finished creating a new job");
+        System.out.println("Creating a new job");
+        Job nextJob = new Job("Courtney", "8","95","Chesterfield, MO","Boston, MA" );
+        System.out.println(nextJob.getDriverName() + " " + nextJob.getEndLocation());
+        System.out.println("Finished creating a new job");
 
 
         // Second test out the Connection
 
-//        try {
+        try {
             JobRunner newJR = new JobRunner();
-            newJR.myDBConnector.getConn();
+            newJR.testConnection();
         System.out.println("Connected!");
-//        } catch () {
-//            System.out.println(e.getErrorCode());
-//            e.printStackTrace();
-//        }
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
 //
 //
 //        // Third test to list truckers
 //
-//        try {
-//            newJR.getTruckers();
-//        } catch (SQLException e) {
-//            System.out.println(e.getErrorCode());
-//            e.printStackTrace();
-//        }
+        try {
+            JobRunner newJR= new JobRunner();
+            newJR.getTruckers();
+        } catch (SQLException e) {
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+        }
 //
 //
 //        // Fourth test to insert a new job
 //
         try {
+            JobRunner newJR = new JobRunner();
            Job myJob = new Job(newJR.getNewID(), "Penny", "16", "89", "St. Paul,MN", "St. Louis", new java.sql.Date(System.currentTimeMillis()));
             newJR.createJob(myJob);
         } catch (SQLException e) {
@@ -142,23 +156,31 @@ public class JobRunner {
 //
 //        // Fifth test to delete a record
 //
-//        try {
-//            int IdJob = 11;
-//            newJR.deleteJob(IdJob);
-//        } catch (SQLException e) {
-//            System.out.println(e.getErrorCode());
-//            e.printStackTrace();
-//        }
+        try {
+            JobRunner delRunner = new JobRunner();
+            int IdJob = 15;
+            delRunner.deleteJob(IdJob);
+            IdJob = 16;
+            delRunner.deleteJob(IdJob);
+            IdJob = 19;
+            delRunner.deleteJob(IdJob);
+
+        } catch (SQLException e) {
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+        }
 //
 //
 //        // Sixth test to update a full record
-//        try {
-//            myJob = new Job(10, "Dave", "16", "63", "Chicago, IL", "St. Louis, MO", new java.sql.Date(System.currentTimeMillis()));
-//            newJR.updateJob(myJob);
-//        } catch (SQLException e) {
-//            System.out.println(e.getErrorCode());
-//            e.printStackTrace();
-//        }
+        try {
+            Job myJob= new Job(10, "Dave", "16", "63", "Chicago, IL", "St. Louis, MO", new java.sql.Date(System.currentTimeMillis()));
+//            myJob = new database.Job(10, "Dave", "16", "63", "Chicago, IL", "St. Louis, MO", new java.sql.Date(System.currentTimeMillis()));
+            JobRunner newJR = new JobRunner();
+            newJR.updateJob(myJob);
+        } catch (SQLException e) {
+            System.out.println(e.getErrorCode());
+            e.printStackTrace();
+        }
 
     }
 }

@@ -1,16 +1,22 @@
 <html>
+<style>
+body {background-color: powderblue;
+        color: black;
+        font-size: 24px;
+        text-align: center;}
+
+</style>
 <body>
-<h2>Hello Truckers!</h2>
+<h2>Hello Drivers!</h2>
 
 <head><title>Driver Log-in</title></head>
 
 <body>
 
- <!-- <form action="redirect.jsp"> -->
+     <form action="trucker" method="POST">
 
-  <form action="trucker" method="GET">
 
-<select name="driverName">
+    <select name="driverName">
     <option>Kerry K</option>
     <option>Ken</option>
     <option>Marissa</option>
@@ -45,8 +51,9 @@
 
     <br/><br/>
 
+    <input type="checkbox" name="expenses" value= "Wait day"> Wait day
     <input type="checkbox" name="expenses" value= "Flight"> Flight
-    <input type="checkbox" name="expenses" value= "Car Rental"> Car Rental
+    <input type="checkbox" name="expenses" value= "Car rental"> Car rental
     <input type="checkbox" name="expenses" value= "Hotel"> Hotel
     <input type="checkbox" name="expenses" value= "Maintenance"> Maintenance
 

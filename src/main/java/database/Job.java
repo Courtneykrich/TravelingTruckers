@@ -1,3 +1,5 @@
+package database;
+
 import java.sql.Date;
 
 public class Job {
@@ -8,6 +10,14 @@ public class Job {
     private String startLocation;
     private String endLocation;
     private Date date;
+
+    public Job(String driverName, String truckNumber, String trailerNumber, String startLocation, String endLocation) {
+        this.driverName = driverName;
+        this.truckNumber = truckNumber;
+        this.trailerNumber = trailerNumber;
+        this.startLocation = startLocation;
+        this.endLocation = endLocation;
+    }
 
     public Job(int id, String driverName, String truckNumber,
                String trailerNumber, String start, String endLocation, Date date) {

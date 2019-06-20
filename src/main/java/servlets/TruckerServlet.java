@@ -3,15 +3,42 @@ package servlets;
 import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import javax.servlet.*;
+
 import database.DBConnector;
+import database.Job;
+import database.JobRunner;
 
 public class TruckerServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        PrintWriter writer = resp.getWriter();
+     resp.setContentType("text/html");
+     PrintWriter writer = resp.getWriter();
+        writer.println("<html><body>");
+
+        writer.println("This " +req.getParameter("customer")+" job has been added.");
+        writer.println("<br></br>");
+        writer.println("Expenses included: ");
+        writer.println("<br></br>");
+        String[] expenses = req.getParameterValues("expenses");
+        for(String tempExp : expenses){
+            writer.println(tempExp+" ");
+        }
+        writer.println("<br></br>");
+        writer.println("Thanks, "+req.getParameter("driverName"));
+
+
+        writer.println("</body></html>");
+
+
+
+
+
+
+
+
+
 
         ResultSet resultSet = null;
         Statement statement = null;
@@ -48,28 +75,53 @@ public class TruckerServlet extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException  {
         PrintWriter writer = resp.getWriter();
+        //writer.println("You have gotten to Trucker");
 
-        req.getParameterValues("customers");
+        resp.setContentType("text/html");
+        writer = resp.getWriter();
+        writer.println("<html><body>");
+        writer.println("<style>\n" +
+                "body {background-color: powderblue;\n" +
+                "        color: black;\n" +
+                "        font-size: 24px;\n" +
+                "        text-align: center;}\n" +
+                "\n" +
+                "</style>");
 
-        /*
-        PreparedStatement statement = null;
-        String sql = "INSERT INTO trucking (name, truck_number, trailer_number, start_address, end_address, date)VALUES(?,?,?,?,?,?)";
+        writer.println("This " +req.getParameter("customer")+" job has been added.");
+        writer.println("<br></br>");
+        writer.println("Expenses included: ");
+        writer.println("<br></br>");
+        String[] expenses = req.getParameterValues("expenses");
+        for(String tempExp : expenses){
+            writer.println(tempExp+" ");
+        }
+        writer.println("<br></br>");
+        writer.println("Thanks, "+req.getParameter("driverName"));
+
+
+        writer.println("</body></html>");
+
+
+
+        JobRunner runner = new JobRunner();
+
         String name = req.getParameter("driverName");
+        String trk = req.getParameter("truckNumber");
+        String trl = req.getParameter("trailerNumber");
+        String startAdd = req.getParameter("startAddress");
+        String endAdd = req.getParameter("endAddress");
 
         try {
-            Connection conn = new DBConnector().getConn();
-            statement= conn.prepareStatement(sql);
-            statement.setString(1,name);
-            int i = statement.executeUpdate();
-            writer.print(i+" records inserted");
-        }catch (SQLException e){
-            System.out.println(e.getErrorCode());
+            int id = runner.getNewID();
+            Date date = new java.sql.Date(System.currentTimeMillis());
+            runner.createJob(new Job(id,name,trk,trl,startAdd,endAdd,date));
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    }
-    */
+
     }
 }
